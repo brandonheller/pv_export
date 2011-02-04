@@ -1,0 +1,55 @@
+README
+==============================================================
+
+To Run this proof of concept:
+
+Ensure you have the SUN JDK 1.6 installed, and use that (openJDK
+fails). Then run:
+
+java -jar env-js.jar -debug -opt -1
+
+This should present you with the following (without the dashes):
+
+--------------------------------------------------------------
+Rhino 1.7 release 3 PRERELEASE 2009 07 08
+js> 
+--------------------------------------------------------------
+
+Then, load the envjs code, and create the initial DOM:
+
+    load('env.rhino.js');
+    Envjs('index.html');
+    Envjs.wait();
+
+
+The Envjs.wait() call is needed to ensure the DOM loading finishes.
+At this point you can check that the DOM has loaded:
+
+--------------------------------------------------------------
+js> document.getElementsByTagName('div').length
+1
+--------------------------------------------------------------
+
+Then, load protovis:
+
+    load ('protovis-d3.1.js')
+
+Then, finally, load or run the javascript to build the image:
+
+    load ('test.js')
+
+You should then be able to see the SVG has been created:
+
+--------------------------------------------------------------
+js> document.getElementsByTagName('svg').length
+1
+--------------------------------------------------------------
+
+Finally, write the SVG to a file. This writes to /tmp/ (UNIX
+operating systems):
+
+Envjs.writeToFile( document.getElementById('mycanvas').innerHTML, 'file:///tmp/test.svg');
+
+
+And then view the test.svg image in an SVG viewer and bask in
+it's awesomeness.
