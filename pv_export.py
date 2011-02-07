@@ -45,6 +45,16 @@ class PVExport:
         else:
             self.options = options
 
+        # We'll be using relative dirs later, so convert now to absolute
+        if options.vis != DEF_VIS:
+            options.vis = path.abspath(options.vis)
+        if options.data != DEF_DATA:
+            options.data = path.abspath(options.data)
+        if options.out != DEF_OUT:
+            options.out = path.abspath(options.out)
+        if options.html != DEF_HTML:
+            options.html = path.abspath(options.html)
+
         # Ensure output directory exists
         dir_path = path.dirname(options.out)
         if dir_path and not path.exists(dir_path):
