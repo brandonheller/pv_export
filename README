@@ -1,55 +1,32 @@
-README
-==============================================================
+pv_export: a simple tool to create PDFs from Protovis source
+Brandon Heller
 
-To Run this proof of concept:
+Derives from code by Jamie Love, posted to Protovis mailing list: http://groups.google.com/group/protovis/browse_thread/thread/ee5737796b4235eb/2e2af35c583504fd
 
-Ensure you have the SUN JDK 1.6 installed, and use that (openJDK
-fails). Then run:
+------------------------------------------------------------------------------
+HOW TO RUN:
+Ensure you have the SUN JDK 1.6 or later (OpenJDK won't work).  Then run:
 
-java -jar env-js.jar -debug -opt -1
+> ./pv_export.sh
 
-This should present you with the following (without the dashes):
+This should generate output/test_out.pdf w/a sample line chart.
 
---------------------------------------------------------------
-Rhino 1.7 release 3 PRERELEASE 2009 07 08
-js> 
---------------------------------------------------------------
+Modify params in pv_export.sh to customize; see the examples in the examples/
+directory.
 
-Then, load the envjs code, and create the initial DOM:
+------------------------------------------------------------------------------
+NOTES:
+Protovis produces beautiful vector output, but it's normally confined to the
+browser.  Yeah, you could manually use print-to-PDF from a web browser, or
+you could script a particular web browser to do PDF output given an HTML
+file, and you'd get PDF output.  I want a method for generating PDFs that is:
+- non-browser-dependent
+- non-OS-dependent
+- easy to install (doesn't require compilation)
+- easy to automate
 
-    load('env.rhino.js');
-    Envjs('index.html');
-    Envjs.wait();
-
-
-The Envjs.wait() call is needed to ensure the DOM loading finishes.
-At this point you can check that the DOM has loaded:
-
---------------------------------------------------------------
-js> document.getElementsByTagName('div').length
-1
---------------------------------------------------------------
-
-Then, load protovis:
-
-    load ('protovis-d3.1.js')
-
-Then, finally, load or run the javascript to build the image:
-
-    load ('test.js')
-
-You should then be able to see the SVG has been created:
-
---------------------------------------------------------------
-js> document.getElementsByTagName('svg').length
-1
---------------------------------------------------------------
-
-Finally, write the SVG to a file. This writes to /tmp/ (UNIX
-operating systems):
-
-Envjs.writeToFile( document.getElementById('mycanvas').innerHTML, 'file:///tmp/test.svg');
-
-
-And then view the test.svg image in an SVG viewer and bask in
-it's awesomeness.
+pv_export tries to achieve these properties, by combining a bunch of open-
+source libraries and providing an easier interface on top of them.  Includes:
+- Rhino: JavaScript interpreter
+- envJS: a browser environment in JavaScript
+- Batik: library for vector graphics
