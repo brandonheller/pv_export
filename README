@@ -7,12 +7,13 @@ Derives from code by Jamie Love, posted to Protovis mailing list: http://groups.
 HOW TO RUN:
 Ensure you have the SUN JDK 1.6 or later (OpenJDK won't work).  Then run:
 
-> ./pv_export.sh
+> ./pv_export.py
 
-This should generate output/test_out.pdf w/a sample line chart.
+This should generate examples/pv_linechart_test.pdf w/a sample line chart.
 
-Modify params in pv_export.sh to customize; see the examples in the examples/
-directory.
+To see a help screen with the available params:
+
+> ./pv_export.py -h
 
 ------------------------------------------------------------------------------
 NOTES:
