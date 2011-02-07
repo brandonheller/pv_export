@@ -10,12 +10,20 @@ from subprocess import check_call
 # Defaults for command-line inputs
 DEF_VIS = "examples/pv_linechart.js"
 DEF_DATA = "examples/pv_linechart_data.js"
-DEF_OUT = "examples/pv_linechart_test.pdf"
+DEF_OUT = "pv_linechart_test.pdf"
 DEF_HTML = "blank_canvas.html"
 
 
 # Path to Batik rasterizer (misnamed - does PDF output too)
 BATIK_PATH = "batik-1.7/batik-rasterizer.jar"
+
+
+def run_in_mod_dir(fcn):
+    """Run provided function in dir of this module, to use relative paths."""
+    orig_dir = os.getcwd()
+    os.chdir(path.join(path.dirname(__file__)))
+    fcn()
+    os.chdir(orig_dir)
 
 
 def uri(filepath):
@@ -44,11 +52,11 @@ class PVExport:
 
         # PV -> SVG
         out_base, ext = path.basename(options.out).split('.')
-        svg_temp = out_base + '.svg'
-        self.write_svg(svg_temp)
+        svg_temp = os.path.join(os.getcwd(), out_base + '.svg')
+        run_in_mod_dir(lambda: self.write_svg(svg_temp))
 
         if ext == 'pdf':
-            self.write_pdf(svg_temp)
+            run_in_mod_dir(lambda: self.write_pdf(svg_temp))
         else:
             raise Exception("non-pdf output extension unsupported")
 
@@ -79,8 +87,10 @@ class PVExport:
         #PV2SVG_ARGS="$VISFILE $DATAFILE file://${CURDIR}/$SVGTEMP file://${CURDIR}/$HTMLFILE"
         #java -jar env-js.jar -opt -1 pv2svg $PV2SVG_ARGS
         options = self.options
-        pv2svg = path.abspath("pv2svg.js")
-        svg_args = ["java", "-jar", "env-js.jar", "-opt", "-1", pv2svg]
+        envjs_path = "env-js.jar"
+        pv2svg_path = "pv2svg.js"
+        svg_args = ["java", "-jar"]
+        svg_args += [envjs_path, "-opt", "-1", pv2svg_path]
         svg_args += [options.vis, options.data]
         svg_args += [uri(svg_temp), uri(options.html)]
         check_call(svg_args)

@@ -9,7 +9,8 @@ Ensure you have the SUN JDK 1.6 or later (OpenJDK won't work).  Then run:
 
 > ./pv_export.py
 
-This should generate examples/pv_linechart_test.pdf w/a sample line chart.
+This should generate pv_linechart_test.pdf w/a sample line chart, in the
+directory where pv_export was called.
 
 To see a help screen with the available params:
 
