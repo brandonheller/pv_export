@@ -41,7 +41,7 @@ path:
 
 This is the fastest way to get going and start from examples, BUT debugging
 can be much harder because the standard way to handle JavaScript errors is to
-ignore them silently in HTML.  Sometime a typo or logic error will cause
+ignore them silently in HTML.  Sometimes a typo or logic error will cause
 Protovis not to render anything, and you'll be stuck.  Raw JavaScript mode
 doesn't have this problem, and conveniently shows line numbers for all
 JavaScript errors encountered.
