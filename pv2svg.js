@@ -14,6 +14,15 @@ var html = arguments[3];
 
 load('env.rhino.js');
 
+// Tell Envjs to read scripts it comes across.
+// This has security implications, so watch out.
+Envjs({
+    scriptTypes: {
+        '': true, //anonymous and inline
+        'text/javascript': true,
+    }
+});
+
 Envjs(html);
 Envjs.wait(); // ensure DOM has finished loading
 
