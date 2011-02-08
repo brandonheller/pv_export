@@ -14,7 +14,7 @@ DEF_OUT = "pv_linechart_test.pdf"
 
 DEF_VIS = "examples/pv_linechart.js"
 DEF_DATA = "examples/pv_linechart_data.js"
-
+DEF_JS = ""
 
 # Path to Batik rasterizer (misnamed - does PDF output too)
 BATIK_PATH = "batik-1.7/batik-rasterizer.jar"
@@ -28,13 +28,14 @@ def run_in_mod_dir(fcn):
     os.chdir(orig_dir)
 
 
+URI_PREPEND = "file://"
+
 def uri(filepath):
     """Return URI w/absolute path, given absolute or relative path."""
-    uri_prepend = "file://"
     if filepath[0] == '/':
-        return uri_prepend + filepath
+        return URI_PREPEND + filepath
     else:
-        return uri_prepend + path.abspath(filepath)
+        return URI_PREPEND + path.abspath(filepath)
 
 
 class PVExport:
@@ -56,6 +57,9 @@ class PVExport:
             options.out = path.abspath(options.out)
         if options.html != DEF_HTML:
             options.html = path.abspath(options.html)
+        if options.js != DEF_JS:
+            js_args =  options.js.split(' ')
+            options.js = [uri(arg) for arg in js_args]
 
         # Ensure output directory exists
         dir_path = path.dirname(options.out)
@@ -88,6 +92,8 @@ class PVExport:
                         help = "html file, defines mycanvas [%s]" % DEF_HTML)
         opts.add_option("--div", type = 'string', default = DEF_DIV,
                         help = "name of HTML div element [%s]" % DEF_DIV)
+        opts.add_option("--js", type = 'string', default = DEF_JS,
+                        help = "list of JS file to load first [%s]" % DEF_JS)
         opts.add_option("-k", "--keep_svg", action = "store_true",
                         dest = "keep_svg", default = False,
                         help = "keep SVG output?")
@@ -104,8 +110,11 @@ class PVExport:
         gi_path = "grab_inner.js"
         svg_args = ["java", "-jar", envjs_path, "-opt", "-1", gi_path]
         svg_args += [uri(options.html), options.div, uri(svg_temp)]
-        if options.html == DEF_HTML:
-            svg_args += ['protovis-d3.2.js', options.data, options.vis]
+        if options.html == DEF_HTML or options.vis != DEF_VIS:
+            svg_args += ['protovis-d3.2.js']
+            if options.js:
+                svg_args += options.js
+            svg_args += [options.data, options.vis]
         check_call(svg_args)
 
     def write_pdf(self, svg_temp, bg_color = "255.255.255.255"):
