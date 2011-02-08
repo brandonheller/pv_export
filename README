@@ -4,6 +4,23 @@ Brandon Heller <brandonh@stanford.edu>
 Derives from code by Jamie Love, posted to Protovis mailing list: http://groups.google.com/group/protovis/browse_thread/thread/ee5737796b4235eb/2e2af35c583504fd
 
 ------------------------------------------------------------------------------
+OVERVIEW:
+Protovis produces beautiful vector output, but it's normally confined to the
+browser.  Yeah, you could manually use print-to-PDF from a web browser, or
+you could script a particular web browser to do PDF output given an HTML
+file, and you'd get PDF output.  I want a method for generating PDFs that is:
+- non-browser-dependent
+- non-OS-dependent
+- easy to install (doesn't require compilation)
+- easy to automate
+
+pv_export tries to achieve these properties, by combining a bunch of open-
+source libraries and providing an easier interface on top of them.  Includes:
+- Rhino: JavaScript interpreter
+- envJS: a browser environment in JavaScript
+- Batik: library for vector graphics
+
+------------------------------------------------------------------------------
 HOW TO RUN:
 Ensure you have a JDK v1.6 or later (Sun or OpenJDK).  Then run:
 
@@ -69,20 +86,3 @@ Rhino runs out of heap space and crashes after awhile.  Fix unknown.
 
 See for more details:
 http://groups.google.com/group/protovis/browse_thread/thread/d011750dd3428ddd
-
-------------------------------------------------------------------------------
-NOTES:
-Protovis produces beautiful vector output, but it's normally confined to the
-browser.  Yeah, you could manually use print-to-PDF from a web browser, or
-you could script a particular web browser to do PDF output given an HTML
-file, and you'd get PDF output.  I want a method for generating PDFs that is:
-- non-browser-dependent
-- non-OS-dependent
-- easy to install (doesn't require compilation)
-- easy to automate
-
-pv_export tries to achieve these properties, by combining a bunch of open-
-source libraries and providing an easier interface on top of them.  Includes:
-- Rhino: JavaScript interpreter
-- envJS: a browser environment in JavaScript
-- Batik: library for vector graphics
