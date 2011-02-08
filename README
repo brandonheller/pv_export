@@ -23,22 +23,33 @@ for the Panel.  This is how the examples/{area.html/area.js} example works.
   var vis = new pv.Panel()
       ...
 
-... was changed to:
+... must be changed to:
 
   var vis = new pv.Panel().canvas('fig')
       ...
 
+If you don't want to use 'fig' for the HTML div name, you can pass in a
+different one with the --div option.
+
 MONOLITHIC HTML MODE
 If the HTML file includes the figure-creating script and data file, then to
-run this, just pass in the HTML file on the command line:
+run this, just pass in the HTML file on the command line and an output file
+path:
 
 > cd examples
 > ../pv_export.py --html area.html -o area.pdf
 
+This is the fastest way to get going and start from examples, BUT debugging
+can be much harder because the standard way to handle JavaScript errors is to
+ignore them silently in HTML.  Sometime a typo or logic error will cause
+Protovis not to render anything, and you'll be stuck.  Raw JavaScript mode
+doesn't have this problem, and conveniently shows line numbers for all
+JavaScript errors encountered.
+
 RAW JAVASCRIPT MODE
-Alternately, you can use pv_export in a raw mode with an HTML file, and a
-blank one will be used.  The split version of the above area example is in the
-same examples directory.  To run it, specify the vis and data .js files:
+Alternately, you can use pv_export in a raw mode with a figure and data file,
+and a blank HTML document will be used.  To run the raw version of the
+previous one, specify the vis and data .js files:
 
 > cd examples
 > ../pv_export.py -v area_bare.js -d area_data.js -o area_bare.pdf
