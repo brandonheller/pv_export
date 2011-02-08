@@ -1,5 +1,5 @@
 pv_export: a simple tool to create PDFs from Protovis source
-Brandon Heller
+Brandon Heller <brandonh@stanford.edu>
 
 Derives from code by Jamie Love, posted to Protovis mailing list: http://groups.google.com/group/protovis/browse_thread/thread/ee5737796b4235eb/2e2af35c583504fd
 
@@ -42,6 +42,22 @@ same examples directory.  To run it, specify the vis and data .js files:
 
 > cd examples
 > ../pv_export.py -v area_bare.js -d area_data.js -o area_bare.pdf
+
+------------------------------------------------------------------------------
+KNOWN BUGS:
+(*) Can't change label font.
+This appears due to limitations in envJS's implementation of SVG/CSS.  If you
+attempt to add this property to Label:
+
+ .font("12px sans-serif")
+
+... you're likely to get an error.
+
+(*) Can't run full matrix example.
+Rhino runs out of heap space and crashes after awhile.  Fix unknown.
+
+See for more details:
+http://groups.google.com/group/protovis/browse_thread/thread/d011750dd3428ddd
 
 ------------------------------------------------------------------------------
 NOTES:
