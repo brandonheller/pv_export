@@ -8,10 +8,12 @@ import os
 from subprocess import check_call
 
 # Defaults for command-line inputs
+DEF_HTML = "blank_canvas.html"
+DEF_DIV = "fig"
+DEF_OUT = "pv_linechart_test.pdf"
+
 DEF_VIS = "examples/pv_linechart.js"
 DEF_DATA = "examples/pv_linechart_data.js"
-DEF_OUT = "pv_linechart_test.pdf"
-DEF_HTML = "blank_canvas.html"
 
 
 # Path to Batik rasterizer (misnamed - does PDF output too)
@@ -84,6 +86,8 @@ class PVExport:
                         help = "output file, should end in pdf [%s]" % DEF_OUT)
         opts.add_option("--html", type = 'string', default = DEF_HTML,
                         help = "html file, defines mycanvas [%s]" % DEF_HTML)
+        opts.add_option("--div", type = 'string', default = DEF_DIV,
+                        help = "name of HTML div element [%s]" % DEF_DIV)
         opts.add_option("-k", "--keep_svg", action = "store_true",
                         dest = "keep_svg", default = False,
                         help = "keep SVG output?")
@@ -94,15 +98,14 @@ class PVExport:
         self.options = options
 
     def write_svg(self, svg_temp):
-        #PV2SVG_ARGS="$VISFILE $DATAFILE file://${CURDIR}/$SVGTEMP file://${CURDIR}/$HTMLFILE"
-        #java -jar env-js.jar -opt -1 pv2svg $PV2SVG_ARGS
+        """Write SVG to filename provided."""
         options = self.options
         envjs_path = "env-js.jar"
-        pv2svg_path = "pv2svg.js"
-        svg_args = ["java", "-jar"]
-        svg_args += [envjs_path, "-opt", "-1", pv2svg_path]
-        svg_args += [options.vis, options.data]
-        svg_args += [uri(svg_temp), uri(options.html)]
+        gi_path = "grab_inner.js"
+        svg_args = ["java", "-jar", envjs_path, "-opt", "-1", gi_path]
+        svg_args += [uri(options.html), options.div, uri(svg_temp)]
+        if options.html == DEF_HTML:
+            svg_args += ['protovis-d3.2.js', options.data, options.vis]
         check_call(svg_args)
 
     def write_pdf(self, svg_temp, bg_color = "255.255.255.255"):

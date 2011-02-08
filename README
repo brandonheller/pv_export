@@ -5,16 +5,43 @@ Derives from code by Jamie Love, posted to Protovis mailing list: http://groups.
 
 ------------------------------------------------------------------------------
 HOW TO RUN:
-Ensure you have the SUN JDK 1.6 or later (OpenJDK won't work).  Then run:
+Ensure you have a JDK v1.6 or later (Sun or OpenJDK).  Then run:
 
 > ./pv_export.py
 
 This should generate pv_linechart_test.pdf w/a sample line chart, in the
-directory where pv_export was called.
+directory where pv_export.py was called.
 
 To see a help screen with the available params:
 
 > ./pv_export.py -h
+
+Usually, the only modification needed to a Protovis example is to modify the
+Panel() creation by appending ".canvas('fig')", so that the SVG gets created
+for the Panel.  This is how the examples/{area.html/area.js} example works.
+
+  var vis = new pv.Panel()
+      ...
+
+... was changed to:
+
+  var vis = new pv.Panel().canvas('fig')
+      ...
+
+MONOLITHIC HTML MODE
+If the HTML file includes the figure-creating script and data file, then to
+run this, just pass in the HTML file on the command line:
+
+> cd examples
+> ../pv_export.py --html area.html -o area.pdf
+
+RAW JAVASCRIPT MODE
+Alternately, you can use pv_export in a raw mode with an HTML file, and a
+blank one will be used.  The split version of the above area example is in the
+same examples directory.  To run it, specify the vis and data .js files:
+
+> cd examples
+> ../pv_export.py -v area_bare.js -d area_data.js -o area_bare.pdf
 
 ------------------------------------------------------------------------------
 NOTES:
