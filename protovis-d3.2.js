@@ -5054,7 +5054,7 @@ pv.SvgScene.expect = function(e, type, attributes, style) {
   for (var name in style) {
     var value = style[name];
     if (value == this.implicit.css[name]) value = null;
-    if (value == null) e.style.removeProperty(name);
+    if (value == null) 1;/*e.style.removeProperty(name) XXX*/
     else e.style[name] = value;
   }
   return e;
